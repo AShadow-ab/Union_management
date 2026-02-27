@@ -1,28 +1,21 @@
-
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
-import FormPage from './pages/FormPage';
-import ResignationPage from './pages/Resignation';
-import { useState } from 'react';
-
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminLogin from "./pages/AdminLogin";
+import FormPage from "./pages/FormPage";
+import Resignation from "./pages/Resignation";
 
 function App() {
-  const [user, setUser] = useState(null);
-
-  if (!user) {
-    return <Home setUser={setUser} />;
-  }
-
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Dashboard user={user} setUser={setUser} />} />
-        <Route path="/form" element={<FormPage user={user} />} />
-        <Route path="/resignation" element={<ResignationPage user={user} />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/admin-login" element={<AdminLogin />} />
+      <Route path="/admin-dashboard" element={<AdminDashboard />} />
+      <Route path="/form" element={<FormPage />} />
+      <Route path="/resignation" element={<Resignation />} />
+    </Routes>
   );
 }
 

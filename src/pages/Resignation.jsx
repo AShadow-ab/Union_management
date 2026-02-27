@@ -25,10 +25,10 @@ export default function ResignationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col items-center py-10">
+    <div className="min-h-screen bg-gray-200 flex flex-col items-center py-6 px-4">
 
       {/* PAPER SHEET */}
-      <div className="bg-white w-[800px] min-h-[1000px] p-16 shadow-xl text-[18px] leading-9">
+      <div className="bg-white w-full max-w-[800px] min-h-[1000px] p-16 shadow-xl text-[18px] leading-9">
 
         {/* TOP RIGHT INPUT SECTION (NO UNDERLINES) */}
         <div className="flex justify-end mb-14">

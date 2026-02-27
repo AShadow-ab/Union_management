@@ -1,9 +1,15 @@
 // src/pages/FormPage.jsx
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import SignatureCanvas from "react-signature-canvas";
+
+// ✅ Import your logos here (see instructions below)
+import leftLogo from "../assets/Fin.jpg";
+import cdcLogo from "../assets/cdc.jpg";
 
 export default function FormPage() {
   const navigate = useNavigate();
+  const sigRef = useRef(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -13,62 +19,92 @@ export default function FormPage() {
     estate: "",
     contact: "",
     place: "",
-    date: "",
+    date: new Date().toISOString().slice(0, 10),
   });
+
+  const [signature, setSignature] = useState(null);
 
   const handleChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
   };
 
+  const clearSignature = () => {
+    sigRef.current.clear();
+    setSignature(null);
+  };
+
+  const saveSignature = () => {
+    if (!sigRef.current.isEmpty()) {
+      const dataURL = sigRef.current
+        .getTrimmedCanvas()
+        .toDataURL("image/png");
+      setSignature(dataURL);
+      alert("Signature saved!");
+    } else {
+      alert("Please sign before saving.");
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!signature) {
+      alert("Please provide your signature before submitting.");
+      return;
+    }
+
     alert("Form Ready for PDF Generation");
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex flex-col items-center py-10">
+    <div className="min-h-screen bg-gray-200 flex flex-col items-center py-6 px-4">
 
       {/* SHEET */}
-      <div className="bg-white w-[800px] border-4 border-gray-800 p-8 shadow-xl">
+      <div className="bg-white w-full max-w-[800px] border-4 border-gray-800 p-8 shadow-xl">
 
         {/* HEADER */}
         <div className="border-b pb-4 mb-4">
+          <div className="flex justify-between items-center">
 
-  <div className="flex justify-between items-center">
+            {/* LEFT LOGO */}
+            <div className="w-24 h-24 flex items-center justify-center">
+              <img
+                src={leftLogo}
+                alt="Left Logo"
+                className="max-h-full object-contain"
+              />
+            </div>
 
-    {/* LEFT LOGO PLACEHOLDER */}
-    <div className="w-24 h-24 border border-gray-400 flex items-center justify-center text-xs text-gray-500">
-      LEFT LOGO
-    </div>
+            {/* CENTER TITLE */}
+            <div className="text-center">
+              <h1 className="text-4xl font-bold tracking-widest">
+                FINAAWU
+              </h1>
+              <p className="text-sm mt-2">
+                REG: SD/14/2018 of 22/02/2018
+              </p>
+              <p className="text-sm">
+                EMAIL: finaawu@gmail.com P.O BOX 115 TIKO
+              </p>
+            </div>
 
-    {/* CENTER TITLE */}
-    <div className="text-center">
-      <h1 className="text-4xl font-bold tracking-widest">
-        FINAAWU
-      </h1>
-      <p className="text-sm mt-2">
-        REG: SD/14/2018 of 22/02/2018
-      </p>
-      <p className="text-sm">
-        EMAIL: finaawu@gamil.com P.O BOX 115 TIKO
-      </p>
-    </div>
+            {/* RIGHT LOGO */}
+            <div className="w-24 h-24 flex items-center justify-center">
+              <img
+                src={cdcLogo}
+                alt="CDC Logo"
+                className="max-h-full object-contain"
+              />
+            </div>
 
-    {/* RIGHT LOGO PLACEHOLDER */}
-    <div className="w-24 h-24 border border-gray-400 flex items-center justify-center text-xs text-gray-500">
-      CDC LOGO
-    </div>
-
-  </div>
-
-</div>
+          </div>
+        </div>
 
         {/* TITLE */}
         <h2 className="text-lg font-bold text-center mb-4 underline">
           ADHERENCE (CHECK-OFF) DEDUCTION FORM
         </h2>
 
-        {/* BODY TEXT */}
         <p className="mb-4">
           In conformity with provision of section 21 of the labour code:
         </p>
@@ -134,7 +170,6 @@ export default function FormPage() {
           </div>
         </div>
 
-        {/* AUTHORIZATION TEXT */}
         <p className="mb-4">
           Here by authorize my employer to deduct from my salary/wages
         </p>
@@ -157,15 +192,18 @@ export default function FormPage() {
             />{" "}
             on the{" "}
             <input
-              value={formData.date}
-              onChange={(e) => handleChange("date", e.target.value)}
-              className="border-b border-black outline-none w-32"
-            />
+  type="date"
+  value={formData.date}
+  onChange={(e) => handleChange("date", e.target.value)}
+  className="border-b border-black outline-none w-40"
+/>
           </div>
         </div>
 
         {/* SIGNATURE AREA */}
         <div className="flex justify-between items-end mt-16">
+
+          {/* STAMP */}
           <div>
             <p className="text-sm italic">Secretary General</p>
             <div className="border border-blue-600 rounded-full w-32 h-32 flex items-center justify-center text-blue-600 text-sm mt-2">
@@ -173,9 +211,37 @@ export default function FormPage() {
             </div>
           </div>
 
+          {/* SIGNATURE PAD */}
           <div className="text-right">
-            <div className="border-b border-black w-48 mb-2"></div>
-            <p>Signature of Member</p>
+            <div className="border border-black w-64 h-40 bg-white">
+              <SignatureCanvas
+                ref={sigRef}
+                penColor="black"
+                canvasProps={{
+                  className: "w-full h-full signature-canvas",
+                }}
+              />
+            </div>
+
+            <div className="flex justify-end gap-2 mt-2">
+              <button
+                type="button"
+                onClick={clearSignature}
+                className="bg-blue-600 text-white px-3 py-1 text-sm rounded"
+              >
+                Clear
+              </button>
+
+              <button
+                type="button"
+                onClick={saveSignature}
+                className="bg-blue-600 text-white px-3 py-1 text-sm rounded"
+              >
+                Save
+              </button>
+            </div>
+
+            <p className="mt-2">Signature of Member</p>
           </div>
         </div>
 
@@ -185,7 +251,7 @@ export default function FormPage() {
 
       </div>
 
-      {/* SUBMIT BUTTON (OUTSIDE SHEET) */}
+      {/* SUBMIT BUTTON */}
       <form onSubmit={handleSubmit} className="mt-8">
         <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg transition">
           Submit

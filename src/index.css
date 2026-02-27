@@ -74,4 +74,6 @@ button:focus-visible {
   }
 }
 
-
+.signature-canvas {
+  touch-action: none;
+}

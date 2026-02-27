@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/b14b7418d4b639256b5becdf79868978.jpg";
-import formIcon from "../assets/b14b7418d4b639256b5becdf79868978.jpg";
-import resignIcon from "../assets/b14b7418d4b639256b5becdf79868978.jpg";
+import logo from "../assets/Fin.jpg";
+import formIcon from "../assets/Fin.jpg";
+import resignIcon from "../assets/Fin.jpg";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -20,11 +20,7 @@ export default function Dashboard() {
           FINAAWU
         </h1>
 
-        <div className="absolute right-8">
-          <button className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-900 transition-all duration-300">
-            Logout
-          </button>
-        </div>
+        
 
       </header>
 
@@ -32,7 +28,7 @@ export default function Dashboard() {
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-10">
 
         <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">
-          Welcome, atnegco@gmail.com
+          WELCOME
         </h2>
 
         <div className="w-full max-w-6xl grid md:grid-cols-2 gap-10">
