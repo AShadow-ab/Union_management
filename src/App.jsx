@@ -5,16 +5,29 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminLogin from "./pages/AdminLogin";
 import FormPage from "./pages/FormPage";
 import Resignation from "./pages/Resignation";
+import ProtectedRoute from "./components/ProtectedRoutes";
 
 function App() {
   return (
     <Routes>
+
+      {/* Public Routes */}
       <Route path="/" element={<Home />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/admin-login" element={<AdminLogin />} />
-      <Route path="/admin-dashboard" element={<AdminDashboard />} />
       <Route path="/form" element={<FormPage />} />
       <Route path="/resignation" element={<Resignation />} />
+      <Route path="/admin-login" element={<AdminLogin />} />
+
+      {/* Protected Route */}
+      <Route
+        path="/admin-dashboard"
+        element={
+          <ProtectedRoute>
+            <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+
     </Routes>
   );
 }

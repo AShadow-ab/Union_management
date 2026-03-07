@@ -1,77 +1,163 @@
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer
-} from "recharts";
 
-export default function AdminDashboard() {
+// src/pages/Dashboard.jsx
 
-  const data = [
-    { estate: "Tiko", members: 40 },
-    { estate: "Spena", members: 30 },
-    { estate: "Camp 7", members: 58 }
-  ];
+import { useEffect, useState } from "react";
+import { db } from "../firebase/config";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 
-  
+export default function Dashboard() {
+
+  const [forms, setForms] = useState([]);
+  const [letters, setLetters] = useState([]);
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+
+      try {
+
+        const formQuery = query(collection(db, "forms"), orderBy("createdAt", "desc"));
+        const formSnapshot = await getDocs(formQuery);
+
+        const formList = formSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        setForms(formList);
+
+        const letterQuery = query(collection(db, "letters"), orderBy("createdAt", "desc"));
+        const letterSnapshot = await getDocs(letterQuery);
+
+        const letterList = letterSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        setLetters(letterList);
+
+      } catch (error) {
+
+        console.log("Dashboard error:", error);
+
+      }
+
+    };
+
+    fetchData();
+
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100">
 
-      {/* NAVBAR */}
-      <nav className="bg-white shadow-md px-8 py-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-red-600">
-          Admin Dashboard
-        </h1>
+    <div className="min-h-screen bg-gray-200 p-8">
 
-        <button className="bg-black text-white px-4 py-2 rounded-lg">
-          Logout
-        </button>
-      </nav>
+      <h1 className="text-3xl font-bold mb-8 text-center">
+        Admin Dashboard
+      </h1>
 
-      <div className="p-8">
+      {/* FORMS */}
 
-        {/* STATS */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
+      <div className="mb-10">
 
-          <div className="bg-white p-6 rounded-xl shadow">
-            <h2 className="text-gray-500">Total Members</h2>
-            <p className="text-3xl font-bold text-green-700">128</p>
+        <h2 className="text-xl font-semibold mb-4">
+          Submitted Forms
+        </h2>
+
+        {forms.length === 0 ? (
+
+          <p>No forms submitted yet.</p>
+
+        ) : (
+
+          <div className="space-y-4">
+
+            {forms.map(form => (
+
+              <div
+                key={form.id}
+                className="bg-white p-4 rounded shadow flex justify-between items-center"
+              >
+
+                <div>
+
+                  <p><strong>Name:</strong> {form.name}</p>
+                  <p><strong>Matricule:</strong> {form.matricule}</p>
+
+                </div>
+
+                <a
+                  href={form.pdfURL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-blue-600 text-white px-4 py-2 rounded"
+                >
+                  View PDF
+                </a>
+
+              </div>
+
+            ))}
+
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow">
-            <h2 className="text-gray-500">Total Forms</h2>
-            <p className="text-3xl font-bold text-blue-700">96</p>
-          </div>
-
-          <div className="bg-white p-6 rounded-xl shadow">
-            <h2 className="text-gray-500">Total Estates</h2>
-            <p className="text-3xl font-bold text-purple-700">3</p>
-          </div>
-
-        </div>
-
-        {/* CHART */}
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-xl font-semibold mb-6">
-            Members Per Estate
-          </h2>
-
-          <div className="w-full h-[300px]">
-            <ResponsiveContainer>
-              <BarChart data={data}>
-                <XAxis dataKey="estate" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="members" fill="#ef4444" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
+        )}
 
       </div>
+
+      {/* LETTERS */}
+
+      <div>
+
+        <h2 className="text-xl font-semibold mb-4">
+          Resignation Letters
+        </h2>
+
+        {letters.length === 0 ? (
+
+          <p>No resignation letters submitted yet.</p>
+
+        ) : (
+
+          <div className="space-y-4">
+
+            {letters.map(letter => (
+
+              <div
+                key={letter.id}
+                className="bg-white p-4 rounded shadow flex justify-between items-center"
+              >
+
+                <div>
+
+                  <p><strong>Name:</strong> {letter.name}</p>
+                  <p><strong>Matricule:</strong> {letter.matricule}</p>
+                  <p><strong>Union:</strong> {letter.union}</p>
+
+                </div>
+
+                <a
+                  href={letter.pdfURL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-green-600 text-white px-4 py-2 rounded"
+                >
+                  View Letter
+                </a>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        )}
+
+      </div>
+
     </div>
+
   );
+
 }
+

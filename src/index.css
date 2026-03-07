@@ -1,5 +1,16 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap');
+
+/* Force sRGB color space to prevent oklch() in computed styles */
+:root {
+  --tw-color-space: srgb;
+  color-space: srgb;
+}
+
+html {
+  color-space: srgb;
+}
+
+@import "tailwindcss";
 
 .font-finaawu {
   font-family: 'Roboto Slab', serif;

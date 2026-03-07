@@ -1,56 +1,74 @@
 import { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminLogin() {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    if (!email || !password) {
-      alert("Enter credentials");
-      return;
-    }
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-    // TEMP static admin login (until backend)
-    if (email === "admin@finaawu.com" && password === "admin123") {
+    console.log("Attempting login with:", email);
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Login success:", userCredential.user);
+
       navigate("/admin-dashboard");
-    } else {
-      alert("Invalid Admin Credentials");
+    } catch (error) {
+      console.log("Login error:", error);
+      alert("Invalid login");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-red-100 px-4">
+    <div className="flex items-center justify-center h-screen bg-gray-100">
 
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-        <h2 className="text-3xl font-bold mb-6 text-center text-red-600">
+      <form
+        onSubmit={handleLogin}
+        className="bg-white p-8 shadow rounded w-96"
+      >
+
+        <h2 className="text-2xl font-bold mb-6 text-center">
           Admin Login
         </h2>
 
         <input
           type="email"
-          placeholder="Admin Email"
-          className="w-full p-3 mb-3 border rounded-lg"
-          value={email}
+          placeholder="Email"
+          className="border p-2 w-full mb-4 rounded"
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
           type="password"
           placeholder="Password"
-          className="w-full p-3 mb-4 border rounded-lg"
-          value={password}
+          className="border p-2 w-full mb-4 rounded"
           onChange={(e) => setPassword(e.target.value)}
         />
 
         <button
-          onClick={handleLogin}
-          className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg transition"
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 w-full rounded hover:bg-blue-700 mb-3"
         >
           Login
         </button>
-      </div>
+
+        {/* Back to Home Button */}
+        <button
+          type="button"
+          onClick={() => navigate("/")}
+          className="bg-gray-500 text-white px-4 py-2 w-full rounded hover:bg-gray-600"
+        >
+          Back to Home
+        </button>
+
+      </form>
+
     </div>
   );
 }
