@@ -6,6 +6,7 @@ import AdminLogin from "./pages/AdminLogin";
 import FormPage from "./pages/FormPage";
 import Resignation from "./pages/Resignation";
 import ProtectedRoute from "./components/ProtectedRoutes";
+import LettersPage from "./pages/LettersPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/form" element={<FormPage />} />
       <Route path="/resignation" element={<Resignation />} />
       <Route path="/admin-login" element={<AdminLogin />} />
+      <Route path="/letters" element={<LettersPage />} />
 
       {/* Protected Route */}
       <Route

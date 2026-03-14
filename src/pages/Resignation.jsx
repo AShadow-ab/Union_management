@@ -16,7 +16,7 @@ export default function ResignationPage() {
   const letterRef = useRef(null);
 
   const toggleUnion = () => {
-    setUnion((prev) => (prev === "FAWU" ? "CAWOTU" : "FAWU"));
+    setUnion((prev) => (prev === "FAWU" ? "CAAWOTU" : "FAWU"));
   };
 
   const handleChange = (field, value) => {
