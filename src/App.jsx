@@ -7,6 +7,8 @@ import FormPage from "./pages/FormPage";
 import Resignation from "./pages/Resignation";
 import ProtectedRoute from "./components/ProtectedRoutes";
 import LettersPage from "./pages/LettersPage";
+import OtherFormPage from "./pages/OtherFormPage";
+import CombinedForms from "./pages/CombinedForms";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
       <Route path="/resignation" element={<Resignation />} />
       <Route path="/admin-login" element={<AdminLogin />} />
       <Route path="/letters" element={<LettersPage />} />
+      <Route path="/other-form" element={<OtherFormPage />} />
+      <Route path="/combined-forms" element={<CombinedForms />} />
 
       {/* Protected Route */}
       <Route

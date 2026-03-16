@@ -35,7 +35,7 @@ export default function Dashboard() {
 
           {/* FORM CARD */}
           <div
-            onClick={() => navigate("/form")}
+            onClick={() => navigate("/combined-forms")}
             className="bg-white rounded-2xl shadow-md p-10 flex flex-col items-center text-center 
             hover:shadow-2xl hover:-translate-y-2 hover:bg-green-50 
             transition-all duration-300 cursor-pointer"
