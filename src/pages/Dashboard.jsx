@@ -31,45 +31,27 @@ export default function Dashboard() {
           WELCOME
         </h2>
 
-        <div className="w-full max-w-6xl grid md:grid-cols-2 gap-10">
+        <div className="w-full max-w-6xl flex justify-center">
 
-          {/* FORM CARD */}
-          <div
-            onClick={() => navigate("/combined-forms")}
-            className="bg-white rounded-2xl shadow-md p-10 flex flex-col items-center text-center 
-            hover:shadow-2xl hover:-translate-y-2 hover:bg-green-50 
-            transition-all duration-300 cursor-pointer"
-          >
-            <img src={formIcon} alt="Form Icon" className="w-28 mb-6" />
+  <div
+    onClick={() => navigate("/combined-forms")}
+    className="bg-white rounded-2xl shadow-md p-10 flex flex-col items-center text-center 
+    hover:shadow-2xl hover:-translate-y-2 hover:bg-green-50 
+    transition-all duration-300 cursor-pointer max-w-md w-full"
+  >
+    <img src={formIcon} alt="Form Icon" className="w-28 mb-6" />
 
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-              ADHERENCE FORM
-            </h3>
+    <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+      ADHERENCE FORM
+    </h3>
 
-            <p className="text-green-700 font-semibold underline decoration-2">
-              Click here to fill adherence form
-            </p>
-          </div>
+    <p className="text-green-700 font-semibold underline decoration-2">
+      Click here to fill adherence form
+    </p>
 
-          {/* RESIGNATION CARD */}
-          <div
-            onClick={() => navigate("/resignation")}
-            className="bg-white rounded-2xl shadow-md p-10 flex flex-col items-center text-center 
-            hover:shadow-2xl hover:-translate-y-2 hover:bg-red-50 
-            transition-all duration-300 cursor-pointer"
-          >
-            <img src={resignIcon} alt="Resignation Icon" className="w-28 mb-6" />
+  </div>
 
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-              RESIGNATION LETTER
-            </h3>
-
-            <p className="text-red-600 font-semibold underline decoration-2">
-              Click here to input information for resignation letter
-            </p>
-          </div>
-
-        </div>
+</div>
       </div>
 
       <footer className="bg-white shadow-inner py-4 text-center text-gray-600">
